@@ -1,0 +1,44 @@
+<%inherit file="/components/base/normal/base.html" />
+<%def name="title()">${c.page.title}</%def>
+
+                    <div class="column">
+                    </div>
+
+                    <div class="column columndouble">
+                        <h2>${c.page.title}</h2>
+                        <div class="hr">
+                            <hr />
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>&nbsp;</th>
+                                    <th>Bestandsnaam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+%if c.numImages:
+    %for image in c.images:
+<% imx, imy = h.getThumbDimensions(image, config) %>
+                                <tr>
+                                    <td>
+                                        <a href="#" onclick="return cmsmenu('picture', ${image.id}, this);"><img src="/img/icons/edit.png" /></a>
+                                        <img src="${url(controller='fetch', action='image', id=image.id, name=image.filename)}" style="width: ${imx}px; height: ${imy}px" class="thumb" />
+                                    </td>
+                                    <td>${image.filename}</td>
+                                </tr>
+    %endfor
+%else:
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="#" onclick="return cmsmenu('picture', -1, this);"><img src="/img/icons/edit.png" /></a>
+                                        (Nog geen afbeeldingen)
+                                    </td>
+                                </tr>
+%endif
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

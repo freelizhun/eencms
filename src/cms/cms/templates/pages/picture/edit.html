@@ -1,0 +1,33 @@
+<%inherit file="/components/base/normal/base.html" />
+<%def name="title()">${c.page.title}</%def>
+
+                    <div class="column">
+                    </div>
+
+                    <div class="column columndouble">
+                        <h2>${c.page.title}</h2>
+                        <div class="hr">
+                            <hr />
+                        </div>
+
+                        ${h.tags.form(url.current(action='submit'), method='post', multipart=True)}
+                            <dl>
+                                <dt><label for="my_image">Afbeelding</label></dt>
+                                <dd>
+%if c.image.id != 'new':
+                                    <div class="image">
+                                        <img src="${url(controller='fetch', action='image', id=c.image.id, name=c.image.filename)}" alt="${c.image.filename}" />
+                                    </div>
+%endif
+                                    ${h.tags.file('image', id='my_image')}
+                                </dd>
+                            </dl>
+
+                            ${h.tags.submit('opslaan', 'Opslaan', class_='readmore', id='inschrijven_submit')}
+                            <div class="hr"> 
+                                <hr /> 
+                            </div>
+                        ${h.tags.end_form()}
+
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

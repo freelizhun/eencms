@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+%if hasattr(self, 'title'):
+        <title>${self.title()} &mdash; ${config.get('website_title', 'website')}</title>
+%else:
+        <title>${config.get('website_title', 'website')}</title>
+%endif
+
+        <link rel="shortcut icon" href="/res/favicon.ico" type="image/x-icon" />
+
+        <link rel="stylesheet" href="/res/style.css" type="text/css" />
+
+%if session.get('cmsuser') and session['cmsuser']:
+        <link rel="stylesheet" href="/res/cms.css" type="text/css" />
+        <script src="/res/cms.js" type="text/javascript"></script>
+%endif
+
+        <script src="/res/jquery.js" type="text/javascript"></script>
+        <script src="/res/jquery-ui.js" type="text/javascript"></script>
+        <script src="/res/jquery.hoverintent.js" type="text/javascript"></script>
+        <script src="/res/basic.js" type="text/javascript"></script>
+%if hasattr(self, 'extraJS'):
+        ${self.extraJS()}
+%endif
+    </head>
+    <body
+%if c.bodyclass:
+        id="${c.bodyclass}"
+%endif
+%if hasattr(self, 'onload'):
+        onload="${self.onload()}"
+%endif
+    >
+        <div class="wrapper">
+            <div class="content_holder">
+                <h1><a href="/" class="logo">${config.get('website_title', 'website')}</a></h1>
+<%include file="menu.html" />
+                <div class="contentholder">
+                    ${self.body()}
+                    <div class="column_footer">&nbsp;</div>
+                </div>
+            </div>
+            <div class="push"></div>
+        </div>
+<%include file="footer.html" />
+
+%if session.get('cmsuser'):
+<%include file="/components/cms/cmsmenu.html" />
+<%include file="/components/cms/overlay.html" />
+<%include file="/components/cms/menuoptions.html" />
+%endif
+    </body>
+</html>

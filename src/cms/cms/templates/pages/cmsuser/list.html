@@ -1,0 +1,40 @@
+<%inherit file="/components/base/normal/base.html" />
+<%def name="title()">${c.page.title}</%def>
+
+                    <div class="column">
+<%include file="/components/page/submenu.html" args="node=c.page" />
+                    </div>
+
+                    <div class="column columndouble">
+                        <h2>${c.page.title}</h2>
+                        <div class="hr">
+                            <hr />
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>naam</th>
+                                    <th>gebruikersnaam</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+%if c.numCmsusers:
+    %for cmsuser in c.cmsusers:
+                                <tr>
+                                    <td>
+                                        <a href="#" onclick="return cmsmenu('cmsuser', ${cmsuser.id}, this);"><img src="/img/icons/edit.png" /></a>
+                                        ${cmsuser.fullname}
+                                    </td>
+                                    <td>${cmsuser.username}</td>
+                                </tr>
+    %endfor
+%else:
+                                <tr>
+                                    <td colspan="2">(nog geen cmsgebruikers)</td>
+                                </tr>
+%endif
+                            </tbody>
+                        </table>
+
+                    </div>

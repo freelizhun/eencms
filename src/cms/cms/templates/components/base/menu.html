@@ -1,0 +1,21 @@
+                <ul class="menu">
+%for node in c.tree.get_children(c.menubase):
+                    <li class="head ${node.menutitle.lower()}"><a href="${node.get_url()}" class="head ${node.menutitle.lower()}">${node.menutitle}</a>
+                        <div class="submenu-container">
+                            <div class="margin">
+                                <ul>
+    %for sub in c.tree.get_children(node):
+        %if sub.order_id == 1:
+                                    <li class="first">
+        %else:
+                                    <li>
+        %endif
+                                        <a href="${sub.get_url()}">${sub.menutitle}</a>
+                                    </li>
+    %endfor
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+%endfor
+                </ul>

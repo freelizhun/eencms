@@ -1,0 +1,83 @@
+#cmsmenu {
+    background-color: white;
+    border: 1px solid #CCC;
+    padding: 10px 0px;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}
+
+#cmsmenu li.separate {
+    margin-top: 10px;
+}
+
+#cmsmenu li {
+    list-style-type: none;
+    line-height: 2em;
+}
+
+#cmsmenu li a {
+    display: block;
+    padding: 0px 15px;
+}
+
+#cmsmenu li a:hover {
+    background-color: #EEE;
+}
+
+#cmsmenu-overlay {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #CCC;
+    padding: 0px 0px;
+}
+
+#cmsmenu-overlay li {
+    list-style-type: none;
+    line-height: 1em;
+}
+
+#cmsmenu-overlay li a {
+    display: block;
+    padding: 5px 15px;
+}
+
+#cmsmenu-overlay li a:hover {
+    background-color: #EEE;
+}
+
+.wysiwyg {
+    height: 250px;
+}
+.login {
+    border: 0px solid #ffffff;
+}
+.note {
+    border: 1px solid #000000;
+    font-size: 9px;
+    color: #FF0000;
+}
+#cmsuser .fullname {
+    display: inline;
+    margin-right: 5px;
+}
+#cmsuser .username {
+    display: inline;
+    margin-right: 5px;
+}
+#cmsuser .actions {
+    display: inline;
+}
+table.stats th {
+    font-weight: normal;
+    text-align: left;
+}
+table.stats td {
+}
+
+.disabled {
+    background-repeat: repeat;
+    background-image: url(../img/disabled.png);
+    background-color: white;
+}

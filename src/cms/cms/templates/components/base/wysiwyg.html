@@ -1,0 +1,10 @@
+<% id = pageargs['id'] %>
+
+                            <script type="text/javascript">
+                                CKEDITOR.replace('${id}', {
+                                    skin: 'v2',
+                                    toolbar: [
+                                        ['Format', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'NFImage'],
+                                    ]
+                                });
+                            </script>

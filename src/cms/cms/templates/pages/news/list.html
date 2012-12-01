@@ -1,0 +1,23 @@
+<%inherit file="/components/base/base.html" />
+<%def name="title()">Nieuws</%def>
+
+                    <div class="column">
+                    </div>
+
+                    <div class="column columndouble">
+<%include file="/components/page/pagetitle.html" args="page=c.page"/>
+%if len(c.news):
+    %for item in c.news:
+<%include file="/components/news/newsitem.html" args="item=item" />
+    %endfor
+
+    %if c.pagination:
+<%include file="/components/base/pagination.html" args="pages=h.pagination.getPageList(c.numnews)" />
+    %endif
+
+%else:
+                        <h3>Helaas</h3>
+                        <p>Geen nieuws gevonden</p>
+%endif
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

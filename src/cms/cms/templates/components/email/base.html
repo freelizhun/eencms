@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <title>${self.title()}</title>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <td>
+                    <img src="${config['website_url']}/img/mail/logo.gif" alt="${config.get('website')}"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ${self.body()}
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

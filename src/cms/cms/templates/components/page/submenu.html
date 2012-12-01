@@ -1,0 +1,21 @@
+<%
+node = pageargs['node']
+parent = c.tree.getParent(node)
+%>
+            <h2>${parent.title}</h2> 
+            <ul id="submenu"> 
+%for sub in c.tree.getChildren(parent):
+                <li>
+    %if sub.eq(node):
+                    <a href="${sub.getUrl()}" class="active">
+    %else:
+                    <a href="${sub.getUrl()}">
+    %endif
+                        ${sub.menutitle}
+                    </a>
+    %if session.get('cmsuser') and session['cmsuser'] and not parent.iname == 'cms':
+                    <a href="#" onclick="return cmsmenu('page', ${sub.id}, this);"><img src="/img/icons/edit.png" /></a>
+    %endif
+                </li>
+%endfor
+            </ul> 

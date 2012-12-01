@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<rss version="2.0">
+  <channel>
+    <title>${self.title()}</title> 
+    <link>http://www.example.nl/</link> 
+    <description>${self.description()}</description>
+    <pubdate>${h.pubdate(c.pubdate)}</pubdate>
+    ${self.body()}
+  </channel>
+</rss>

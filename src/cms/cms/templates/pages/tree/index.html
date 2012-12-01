@@ -1,0 +1,18 @@
+<html>
+    <head>
+        <title>Website Tree</title>
+        <style type="text/css">
+            body { background-color: rgb(223, 223, 225); color: #000; font-size: 11pt; }
+            * { font-family: verdana, sans-serif; }
+            .meta { font-size: 0.7em; }
+        </style>
+    </head>
+    <body>
+        <h2>Hoe ziet de website-tree er uit?</h2>
+        <ul>
+%for node in c.tree.get_nodes(0):
+<%include file="/components/tree/node.html" args="node=node" />
+%endfor
+        </ul>
+    </body>
+</html>

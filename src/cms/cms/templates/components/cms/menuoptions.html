@@ -1,0 +1,26 @@
+        <script type="text/javascript">
+            // This holds all the cms-menu options available in the current page.
+            // It's populated by the c.cmsmenuOptions dictionary in the tmpl_context.
+            // Don't forget to add the menuOptions from the tree-library, otherwise
+            // page options will not work or be available.
+            function getMenuOptions(type, ident) {
+                options = new Array();
+                switch (type) {
+%for type, items in c.cmsmenuOptions.items():
+                    case '${type}':
+                        switch (ident) {
+    %for key, options in items.items():
+                            case ${key}:
+        %for option in options:
+                                options.push(${h.dictToCMSOption(option)});
+        %endfor
+                                break;
+    %endfor
+                            default:
+                        }
+                        break;
+%endfor
+                }
+                return options;
+            }
+        </script>

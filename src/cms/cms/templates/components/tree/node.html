@@ -1,0 +1,12 @@
+<% node = pageargs['node'] %>
+<li>
+    ${node.title} - ${node.menutitle}
+    <span class="meta">[id=${node.id};iname=${node.iname};created=${node.created.strftime("%Y%m%d%H%M%S")};changed=${node.created.strftime("%Y%m%d%H%M%S")}]</span>
+%if len(c.tree.get_children(node)):
+    <ul>
+    %for sub in c.tree.get_children(node):
+        <%include file="node.html" args="node=sub" />
+    %endfor
+    </ul>
+%endif
+</li>

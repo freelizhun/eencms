@@ -1,0 +1,26 @@
+<%inherit file="/components/base/normal/base.html" />
+<%def name="title()">${c.news.title}</%def>
+
+                    <div class="column">
+                    </div>
+
+                    <div class="column columndouble">
+                        <div id="metamenu">
+                            <a href="#">print pagina</a> | <a href="#">e-mail deze pagina</a>
+                        </div>
+                        <h2>
+                            ${c.news.title}
+%if c.cmsuser:
+                            <a href="#" class="cmslink" style="padding-left: 10px;" onclick="return cmsmenu('news', ${c.news.id}, this);"><img src="/img/icons/edit.png" /></a>
+%endif
+                        </h2>
+
+                        <p class="return"><a href="${url(controller='news', action='list')}">&laquo; terug naar overzicht</a></p>
+
+%if c.news.teaser:
+                        ${h.literal(c.news.teaser.encode('utf-8'))}
+%endif
+%if c.news.content:
+                        ${h.literal(c.news.content.encode('utf-8'))}
+%endif
+                    </div>

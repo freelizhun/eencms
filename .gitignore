@@ -1,0 +1,6 @@
+*.db
+*.pyc
+src/cms/data
+cms.egg-info
+cms/dist
+cms/build

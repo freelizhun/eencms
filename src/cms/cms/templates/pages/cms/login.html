@@ -1,0 +1,31 @@
+<%inherit file="/components/base/base.html" />
+<%def name="title()">CMS Login</%def>
+
+                    <div class="column">
+                        <div class="helptext">
+                            &nbsp;
+                        </div>
+                    </div>
+
+                    <div class="column columndouble">
+                        <h2>Inloggen in het CMS</h2>
+%if c.error:
+                        <p class="error">${c.error}</p>
+%endif
+                        <div class="hr firsthr">
+                            <hr />
+                        </div>
+                        <form name="cmslogin" method="post" action="${url(controller='cms', action='submit')}" id="inschrijven">
+                            <dl>
+                                <dt><label for="my_username_id">Gebruikersnaam</label></dt>
+                                <dd><input name="username" id="my_username_id" type="text" class="last" /></dd>
+                                <dt><label for="my_passwd_id">Wachtwoord</label></dt>
+                                <dd><input name="passwd" id="my_passwd_id" type="password" class="last" /></dd>
+                            </dl>
+                            <input name="inloggen" type="submit" class="readmore" id="inschrijven_submit" value="Inloggen"> 
+                            <div class="hr"> 
+                                <hr /> 
+                            </div> 
+                        </form>
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

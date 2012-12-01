@@ -1,0 +1,37 @@
+<%inherit file="/components/base/normal/base.html" />
+%if c.item.id == 'new':
+<%def name="title()">Nieuw nieuwsitem schrijven</%def>
+%else:
+<%def name="title()">${c.item.title} bewerken</%def>
+%endif
+
+                    <div class="column">
+                    </div>
+
+                    <div class="column columndouble">
+%if c.item.id == 'new':
+                        <h2>Nieuw nieuwsitem schrijven</h2>
+%else:
+                        <h2>${c.item.title} bewerken</h2>
+%endif
+                        <div class="hr firsthr">
+                            <hr />
+                        </div>
+                        ${h.tags.form(url(controller='news', action='submit', id=c.item.id, class_='cmsform'))}
+                            <dl>
+                                <dt><label for="my_title">Titel</label></dt>
+                                <dd>${h.tags.text('title', id='my_title', class_='last', value=c.item.title)}</dd>
+                                <dt><label for="teaser">Teaser</label></dt>
+                                <dd>${h.tags.textarea('teaser', id='teaser', class_='last', content=c.item.teaser)}</dd>
+                                <dt><label for="content">Inhoud</label></dt>
+                                <dd>${h.tags.textarea('content', id='content', class_='last', content=c.item.content)}</dd>
+                            </dl>
+<%include file="/components/base/wysiwyg.html" args="id='content'"/>
+<%include file="/components/base/wysiwyg.html" args="id='teaser'"/>
+                            ${h.tags.submit('opslaan', 'Opslaan', id='opslaan_submit', class_='readmore')}
+                            <div class="hr"> 
+                                <hr /> 
+                            </div> 
+                        ${h.tags.end_form()}
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

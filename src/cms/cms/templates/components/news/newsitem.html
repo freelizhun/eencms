@@ -1,0 +1,25 @@
+<% item = pageargs['item'] %>
+%if item.active:
+                        <div>
+%else:
+                        <div class="disabled">
+%endif
+                            <h3>
+                                ${item.title}
+%if c.cmsuser:
+                                <a href="#" class="cmslink" onclick="return cmsmenu('news', ${item.id}, this);"><img src="/img/icons/edit.png" /></a>
+%endif
+                            </h3>
+                            <p>Gepubliceerd op ${h.dutchTime("%d %B %Y", item.created)}</p>
+%if item.content and item.teaser:
+                            ${h.literal(item.teaser.encode('utf-8'))}
+                            <p><a href="${url(controller='news', action='view', id=item.id, title=item.getURLTitle())}">lees meer</a></p>
+%elif item.content:
+                            ${h.literal(item.content.encode('utf-8'))}
+%else:
+                            ${h.literal(item.teaser.encode('utf-8'))}
+%endif
+                            <div class="hr">
+                                <hr />
+                            </div>
+                        </div>

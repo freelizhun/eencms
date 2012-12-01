@@ -1,0 +1,45 @@
+<%inherit file="/components/base/normal/base.html" />
+<%def name="title()">${c.page.title}</%def>
+
+                    <div class="column">
+<%include file="/components/page/submenu.html" args="node=c.page" />
+                    </div>
+
+                    <div class="column columndouble">
+                        <h2>${c.page.title}</h2>
+                        <div class="hr">
+                            <hr />
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>bestandsnaam</th>
+                                    <th>type</th>
+                                    <th>formaat</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+%if c.numDocuments:
+    %for doc in c.documents:
+                                <tr>
+                                    <td>
+                                        <a href="#" onclick="return cmsmenu('document', ${doc.id}, this);"><img src="/img/icons/edit.png" /></a>
+                                        ${doc.filename}
+                                    </td>
+                                    <td>${doc.filetype}</td>
+                                    <td>${h.sizeof_fmt(doc.filesize)}</td>
+                                </tr>
+    %endfor
+%else:
+                                <tr>
+                                    <td colspan="3">
+                                        <a href="#" onclick="return cmsmenu('document', -1, this);"><img src="/img/icons/edit.png" /></a>
+                                        (er zijn nog geen documenten)
+                                    </td>
+                                </tr>
+%endif
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="column_footer">&nbsp;</div>

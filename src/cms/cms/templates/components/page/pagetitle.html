@@ -1,0 +1,11 @@
+<% page = pageargs['page'] %>
+%if session.get('cmsuser') and session['cmsuser']:
+                        <h2>
+                            ${page.title}
+                            <a href="#" onclick="return cmsmenu('page', ${page.id}, this);">
+                                <img src="/img/icons/edit.png" />
+                            </a>
+                        </h2>
+%else:
+                        <h2>${page.title}</h2>
+%endif
