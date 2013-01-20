@@ -63,9 +63,10 @@ def cut(instr, charlimit):
         except:
             wordsleft = False
             break
-        if len("%s %s" % (ret, nextword)) > charlimit:
+        new_string = "{0} {1}".format(ret, nextword)
+        if len(new_string) > charlimit:
             break
-        ret = "%s %s" % (ret, nextword)
+        ret = new_string
     if wordsleft:
         ret += '...'
     return ret
