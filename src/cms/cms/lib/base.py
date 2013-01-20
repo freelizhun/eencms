@@ -38,7 +38,7 @@ class BaseController(WSGIController):
         if not session.get('cmsuser'):
             session['cmsuser'] = None
         else:
-            c.cmsuser = model.get_cmsuser(session['cmsuser'])
+            c.cmsuser = model.find_cmsuser(session['cmsuser'])
 
         c.tree = Tree(Session)
         c.tree.load()

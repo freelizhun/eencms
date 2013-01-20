@@ -88,10 +88,10 @@ def findNews(id):
     return Session.query(News).get(id)
 
 
-def find_cms_user(id=None, username=None):
-    if id:
+def find_cmsuser(id=None, username=None):
+    if id is not None:
         return Session.query(CMSUser).get(id)
-    elif username:
+    elif username is not None:
         return Session.query(CMSUser).filter(CMSUser.username == username)\
             .one()
     else:
