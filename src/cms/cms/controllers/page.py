@@ -4,7 +4,6 @@ from pylons import request, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
 from cms.lib.exceptions import NotFoundException
-from cms.lib.cms import verify
 from cms.lib.base import BaseController, render, Session
 import cms.model as model
 
