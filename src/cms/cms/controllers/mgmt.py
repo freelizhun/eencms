@@ -5,6 +5,7 @@ from pylons import request, session, tmpl_context as c, url
 from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
+from cms.lib import security
 
 log = logging.getLogger(__name__)
 
@@ -25,9 +26,9 @@ class MgmtController(BaseController):
         passwd = str(request.params.get('passwd'))
 
         try:
-            usr = model.findCMSUser(username=login)
-            if not usr or crypt.crypt(passwd, usr.password) != usr.password:
-                raise Exception('Wrong')
+            usr = model.find_cmsuser(username=login)
+            if not usr or not security.check_password(passwd, usr.password):
+                raise Exception('')
             session['cmsuser'] = usr.id
             session.save()
             log.info('CMS-user %r logged in', usr)
@@ -35,7 +36,7 @@ class MgmtController(BaseController):
             log.info("Failed login attempt for login %s: %s", login, str(e))
             return self.login('Gebruikersnaam onbekend of wachtwoord fout.')
 
-        return redirect(url(controller='cms', action='index'))
+        return redirect(url(controller='mgmt', action='index'))
 
     def logout(self):
         try:
