@@ -1,12 +1,12 @@
 <div id="cmsmenu">
     <ul>
-%for node in c.tree.getNodes(c.tree.findNode(iname='cms').id):
-    %if node.getExtra('separate', False):
+%for node in c.tree.get_nodes(c.tree.find_node(iname='cms').id):
+    %if node.get_extra('separate', False):
         <li class="separate">
     %else:
         <li>
     %endif
-            <a href="${node.getUrl()}">${node.menutitle}</a>
+            <a href="${node.get_url()}">${node.menutitle}</a>
         </li>
 %endfor
     </ul>
