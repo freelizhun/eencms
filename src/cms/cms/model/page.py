@@ -30,7 +30,7 @@ class Page(Base):
     content = relation('Content', backref=backref('page'))
 
     def __repr__(self):
-        return "<Page id=%d;menutitle=%s>" % (self.id, self.menutitle)
+        return "<Page id={0};iname={1}>".format(self.id, self.iname)
 
     def get_url(self):
         """This method returns a valid URL for the node.
@@ -39,7 +39,7 @@ class Page(Base):
         """
         if self.type == 'content':
             return url(controller='page', action='view', id=self.id,
-                       title=self.getUrlTitle())
+                       title=self.get_url_title())
         elif self.type == 'shortcut':
             target = cPickle.loads(str(self.extradata))['target']
             return url(**target)
@@ -48,13 +48,13 @@ class Page(Base):
 
         return '/'
 
-    def getExtra(self, field, default=None):
+    def get_extra(self, field, default=None):
         if not self.extradata:
             return default
-        dat = cPickle.loads(self.extradata)
+        dat = cPickle.loads(str(self.extradata))
         return dat.get(field, default)
 
-    def getUrlTitle(self):
+    def get_url_title(self):
         return re.sub('([^\w\d]+)', '_', self.menutitle).strip('_')
 
     def eq(self, node):

@@ -61,7 +61,7 @@ class PageController(BaseController):
         return redirect(url(controller='page',
                             action='view',
                             id=c.page.id,
-                            title=c.page.getUrlTitle()))
+                            title=c.page.get_url_title()))
 
     def addbelow(self, id=None):
         verify()
