@@ -1,48 +1,55 @@
-#cmsmenu {
+#cmsmenu-overlay, #cmsmenu {
     background-color: white;
     border: 1px solid #CCC;
-    padding: 10px 0px;
+    padding: 0px 0px;
+    font-size: 0.8em;
+}
+
+#cmsmenu {
     position: fixed;
     right: 20px;
     top: 20px;
 }
 
-#cmsmenu li.separate {
-    margin-top: 10px;
-}
-
-#cmsmenu li {
-    list-style-type: none;
-    line-height: 2em;
-}
-
-#cmsmenu li a {
-    display: block;
-    padding: 0px 15px;
-}
-
-#cmsmenu li a:hover {
-    background-color: #EEE;
-}
-
 #cmsmenu-overlay {
     display: none;
     position: absolute;
-    background-color: white;
-    border: 1px solid #CCC;
-    padding: 0px 0px;
 }
 
+#cmsmenu h3 {
+    background-color: #232526;
+    color: white;
+    font-size: 1em;
+    padding: 0.2em 1em;
+    margin: 0 0 1em 0;
+}
+
+#cmsmenu ul {
+    margin: 0 0 1em 0;
+    padding: 0;
+}
+#cmsmenu-overlay ul {
+    margin: 0;
+    padding: 0;
+}
+#cmsmenu li.separate,
+#cmsmenu-overlay li.separate {
+    margin-top: 10px;
+}
+
+#cmsmenu li,
 #cmsmenu-overlay li {
     list-style-type: none;
-    line-height: 1em;
 }
 
+#cmsmenu li a,
 #cmsmenu-overlay li a {
     display: block;
-    padding: 5px 15px;
+    padding: 0em 1em;
+    line-height: 1.8em;
 }
 
+#cmsmenu li a:hover,
 #cmsmenu-overlay li a:hover {
     background-color: #EEE;
 }
@@ -80,4 +87,22 @@ table.stats td {
     background-repeat: repeat;
     background-image: url(../img/disabled.png);
     background-color: white;
+}
+
+nav li { padding-right: 20px; position: relative; }
+nav .cmsoption {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+body.cms .content img {
+    border: 0px !important;
+    margin: 0px;
+    padding: 0px;
+}
+
+.content .cmsoption img {
+    border: 0px !important;
+    margin: 0px;
+    padding: 0px;
 }
