@@ -4,13 +4,14 @@ Provides the BaseController class for subclassing.
 """
 import logging
 
-from pylons import session, tmpl_context as c
+from pylons import request, session, tmpl_context as c
 from pylons.controllers import WSGIController
 from pylons.templating import render_mako as render  # noqa
 
 from cms.model.meta import Session
 from cms import model
 from cms.lib.tree import Tree
+from cms.lib import security
 
 log = logging.getLogger(__name__)
 
@@ -35,10 +36,17 @@ class BaseController(WSGIController):
         c.bodyclass = None
         c.cmsuser = None
 
+        if 'token' not in session:
+            session['token'] = security.generate_token()
+            session.save()
+
         if not session.get('cmsuser'):
             session['cmsuser'] = None
         else:
             c.cmsuser = model.find_cmsuser(session['cmsuser'])
+
+        if not security.check_token(request, session):
+            abort(403)
 
         c.tree = Tree(Session)
         c.tree.load()

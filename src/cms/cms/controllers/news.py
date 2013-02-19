@@ -31,7 +31,7 @@ class NewsController(BaseController):
         return render('/pages/news/list.html')
 
     def view(self, id, title=None):
-        c.news = model.findNews(int(id))
+        c.news = model.find_news(int(id))
         if not c.news:
             abort(404)
         c.cmsmenuOptions['news'] = {c.news.id: self._getItemCmsmenu(c.news)}
@@ -66,12 +66,12 @@ class NewsController(BaseController):
         return opt
 
     def edit(self, id=None):
-        c.page = c.tree.findMatchingShortcut('news', 'list')
+        c.page = c.tree.find_matching_shortcut('news', 'list')
         if id == 'new':
             c.item = model.News()
             c.item.id = 'new'
         else:
-            c.item = model.findNews(id)
+            c.item = model.find_news(id)
 
         if session.get('errors'):
             c.errors = session.get('errors')
@@ -90,7 +90,7 @@ class NewsController(BaseController):
             news.created = datetime.datetime.now()
             news.active = True
         else:
-            news = model.findNews(id)
+            news = model.find_news(id)
 
         rp = request.params
         title = rp.get('title')
@@ -100,9 +100,8 @@ class NewsController(BaseController):
         errors = []
         if not title:
             errors.append(dict(title='title', message='notempty'))
-        if not teaser:
+        if not teaser and not content:
             errors.append(dict(title='teaser', message='notempty'))
-        if not content:
             errors.append(dict(title='content', message='notempty'))
 
         if errors:
@@ -127,19 +126,19 @@ class NewsController(BaseController):
         return redirect(url(controller='news', action='list'))
 
     def hide(self, id=None):
-        news = model.findNews(id)
+        news = model.find_news(id)
         news.active = False
         model.commit()
         return redirect(url(controller='news', action='list'))
 
     def unhide(self, id=None):
-        news = model.findNews(id)
+        news = model.find_news(id)
         news.active = True
         model.commit()
         return redirect(url(controller='news', action='list'))
 
     def delete(self, id=None):
-        news = model.findNews(id)
+        news = model.find_news(id)
         log.info("Deleting news item %d %s", news.id, news.title)
         model.delete(news)
         model.commit()

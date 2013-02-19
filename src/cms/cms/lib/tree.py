@@ -50,7 +50,7 @@ class Tree:
 
     def find_node(self, id=None, iname=None):
         if not id and not iname:
-            raise Exception("findNode requires id or iname to locate nodes.")
+            raise Exception("find_node requires id or iname to locate nodes.")
 
         retval = None
 
@@ -97,7 +97,7 @@ class Tree:
         path = [node]
         curnode = node
         while curnode.parent_id > 0:
-            curnode = self.findNode(id=curnode.parent_id)
+            curnode = self.find_node(id=curnode.parent_id)
             path.insert(0, curnode)
         return path
 
@@ -124,13 +124,13 @@ class Tree:
                     newnode.order_id = curorder
                     curorder += 1
 
-        self.session.save(newnode)
+        self.session.add(newnode)
         self.save()
 
         return newnode.id
 
     def move_node(self, node, direction):
-        parent_id = self.findNode(node).parent_id
+        parent_id = self.find_node(node).parent_id
         nodeset = self.get_nodes(parent_id)
 
         prev, childn, next = None, None, None
@@ -158,7 +158,7 @@ class Tree:
         for child in children:
             self.delChild(child.id)
 
-        child = self.findNode(id=childid)
+        child = self.find_node(id=childid)
         parentset = self.get_nodes(child.parent_id)
         curorder = 1
         for node in parentset:

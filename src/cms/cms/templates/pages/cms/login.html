@@ -1,31 +1,21 @@
 <%inherit file="/components/base/base.html" />
 <%def name="title()">CMS Login</%def>
 
-                    <div class="column">
-                        <div class="helptext">
-                            &nbsp;
-                        </div>
-                    </div>
-
-                    <div class="column columndouble">
-                        <h2>Inloggen in het CMS</h2>
+                    <h2>Inloggen in het CMS</h2>
 %if c.error:
-                        <p class="error">${c.error}</p>
+                    <p class="alert alert-error">${c.error}</p>
 %endif
-                        <div class="hr firsthr">
-                            <hr />
-                        </div>
-                        <form name="cmslogin" method="post" action="${url(controller='cms', action='submit')}" id="inschrijven">
-                            <dl>
-                                <dt><label for="my_username_id">Gebruikersnaam</label></dt>
-                                <dd><input name="username" id="my_username_id" type="text" class="last" /></dd>
-                                <dt><label for="my_passwd_id">Wachtwoord</label></dt>
-                                <dd><input name="passwd" id="my_passwd_id" type="password" class="last" /></dd>
-                            </dl>
-                            <input name="inloggen" type="submit" class="readmore" id="inschrijven_submit" value="Inloggen"> 
-                            <div class="hr"> 
-                                <hr /> 
-                            </div> 
-                        </form>
-                    </div>
+%if c.info:
+                    <p class="alert alert-info">${c.info}</p>
+%endif
+                    <form name="cmslogin" method="post" action="${url(controller='cms', action='submit')}">
+                        ${tags.hidden('token', session.get('token'))}
+                        <dl>
+                            <dt><label for="username">Gebruikersnaam</label></dt>
+                            <dd>${tags.text('username')}</dd>
+                            <dt><label for="passwd">Wachtwoord</label></dt>
+                            <dd>${tags.password('passwd')}</dd>
+                        </dl>
+                        <input name="submit" type="submit" class="btn btn-primary" value="Inloggen"> 
+                    </form>
                     <div class="column_footer">&nbsp;</div>

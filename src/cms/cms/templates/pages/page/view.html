@@ -1,24 +1,17 @@
-<%inherit file="/components/base/normal/base.html" />
+<%inherit file="/components/base/base.html" />
 <%def name="title()">${c.page.title}</%def>
 
-            <div class="column">
-                ${h.literal(c.page.content.sidebar)}
+            <div id="metamenu">
+                <a href="#">print pagina</a> | <a href="#">e-mail deze pagina</a>
             </div>
-
-            <div class="column columndouble">
-                <div id="metamenu">
-                    <a href="#">print pagina</a> | <a href="#">e-mail deze pagina</a>
-                </div>
-                <h2>
-                    ${c.page.title}
-%if session.get('cmsuser') and session['cmsuser']:
-                    <a href="#" onclick="return cmsmenu('page', ${c.page.id}, this);"><img src="/img/icons/edit.png" /></a>
+            <h2>
+                ${c.page.title}
+%if session.get('cmsuser'):
+                <a href="#" class='cmsoption' onclick="return cmsmenu('page', ${c.page.id}, this);"><img src="/img/icons/edit.png" /></a>
 %endif
-                </h2>
+            </h2>
 %if c.page.content:
-                ${h.literal(c.page.content.content)}
+            ${h.literal(h.textile(c.page.content.content))}
 %else:
-                <p>Pagina heeft nog geen content!</p>
+            <p>Deze pagina heeft nog geen content.</p>
 %endif
-                <div class="column_footer">&nbsp;</div>
-            </div>

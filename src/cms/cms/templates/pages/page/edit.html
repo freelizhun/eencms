@@ -1,51 +1,21 @@
-<%inherit file="/components/base/normal/base.html" />
+<%inherit file="/components/base/base.html" />
 <%def name="title()">${c.page.title} bewerken</%def>
 
-            <div class="column">
-            </div>
+            <h2>${c.page.title} bewerken</h2>
 
-            <div class="column columndouble">
-                <h2>${c.page.title} bewerken</h2>
-                <div class="hr firsthr">
-                    <hr />
-                </div>
+            ${tags.form(url(controller='page', action='submit', id=c.page.id), method='post')}
+                ${tags.hidden('token', session.get('token'))}
+                <dl>
+                    <dt><label for="my_title">Titel</label></dt>
+                    <dd>${tags.text('title', id='my_title', value=c.page.title)}</dd>
+                    <dt><label for="my_menutitle">Menutitel</label></dt>
+                    <dd>${tags.text('menutitle', id='my_menutitle', value=c.page.menutitle)}</dd>
+                    <dt><label for="my_content">Inhoud</label></dt>
+                    <dd>
+                        ${tags.textarea('content', id='my_content', class_='large-text', content=c.page.getContent())}
+                    </dd>
+                </dl>
+                ${tags.submit('opslaan', 'Opslaan', id='opslaan_submit', class_='btn btn-primary')}
+            ${tags.end_form()}
 
-                ${h.tags.form(url(controller='page', action='submit', id=c.page.id), method='post')}
-                    <dl>
-                        <dt><label for="my_title">Titel</label></dt>
-                        <dd>${h.tags.text('title', id='my_title', class_='last', value=c.page.title)}</dd>
-                        <dt><label for="my_menutitle">Menutitel</label></dt>
-                        <dd>${h.tags.text('menutitle', id='my_menutitle', class_='last', value=c.page.menutitle)}</dd>
-                        <dt><label for="my_content">Inhoud</label></dt>
-                        <dd>
-                            ${h.tags.textarea('content', id='my_content', class_='last wysiwyg', content=c.page.getContent())}
-                            <script type="text/javascript">
-                                CKEDITOR.replace('my_content', {
-                                    skin: 'v2',
-                                    toolbar: [
-                                        ['Format', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'NFImage'],
-                                    ]
-                                });
-                            </script>
-                        </dd>
-                        <dt><label for="my_sidebar">Linkerkolom</label></dt>
-                        <dd>
-                            ${h.tags.textarea('sidebar', id='my_sidebar', class_='last wysiwyg', content=c.page.getSidebarContent())}
-                            <script type="text/javascript">
-                                CKEDITOR.replace('my_sidebar', {
-                                    skin: 'v2',
-                                    toolbar: [
-                                        ['Format', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'NFImage'],
-                                    ]
-                                });
-                            </script>
-                        </dd>
-                    </dl>
-                    ${h.tags.submit('opslaan', 'Opslaan', id='opslaan_submit', class_='readmore')}
-                    <div class="hr">
-                        <hr />
-                    </div>
-                ${h.tags.end_form()}
-
-                <div class="column_footer">&nbsp;</div>
-            </div>
+            <div class="column_footer">&nbsp;</div>

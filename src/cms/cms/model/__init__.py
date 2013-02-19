@@ -76,15 +76,15 @@ def list_news(**kargs):
     return num, q
 
 
-def findImage(id):
+def find_image(id):
     return Session.query(Image).get(id)
 
 
-def findDocument(id):
+def find_document(id):
     return Session.query(Document).get(id)
 
 
-def findNews(id):
+def find_news(id):
     return Session.query(News).get(id)
 
 

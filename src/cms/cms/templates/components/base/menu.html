@@ -1,21 +1,27 @@
-                <ul class="menu">
+                <nav>
+                    <ul>
 %for node in c.tree.get_children(c.menubase):
-                    <li class="head ${node.menutitle.lower()}"><a href="${node.get_url()}" class="head ${node.menutitle.lower()}">${node.menutitle}</a>
-                        <div class="submenu-container">
-                            <div class="margin">
-                                <ul>
+                        <li class="head ${node.menutitle.lower()}">
+                            <a href="${node.get_url()}" class="head ${node.menutitle.lower()}">${node.menutitle}</a>
+    %if session.get('cmsuser'):
+                            <a href="#" class='cmsoption' onclick="return cmsmenu('page', ${node.id}, this);"><img src="/img/icons/edit.png" /></a>
+    %endif
+                            <div class="submenu-container">
+                                <div class="margin">
+                                    <ul>
     %for sub in c.tree.get_children(node):
         %if sub.order_id == 1:
-                                    <li class="first">
+                                        <li class="first">
         %else:
-                                    <li>
+                                        <li>
         %endif
-                                        <a href="${sub.get_url()}">${sub.menutitle}</a>
-                                    </li>
+                                            <a href="${sub.get_url()}">${sub.menutitle}</a>
+                                        </li>
     %endfor
-                                </ul>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
-                    </li>
+                        </li>
 %endfor
-                </ul>
+                    </ul>
+                </nav>

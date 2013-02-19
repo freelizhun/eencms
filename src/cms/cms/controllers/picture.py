@@ -6,7 +6,6 @@ from pylons import request, response, tmpl_context as c, url, config
 from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
-from cms.lib.cms import verify
 import cms.lib.helpers as h
 
 log = logging.getLogger(__name__)
@@ -15,7 +14,8 @@ log = logging.getLogger(__name__)
 class PictureController(BaseController):
     def __before__(self):
         BaseController.__before__(self)
-        c.page = c.tree.findNode(iname='cmspicture')
+        c.bodyclass = 'cms'
+        c.page = c.tree.find_node(iname='cmspicture')
 
     def get(self, id=None, title=None):
         doc = self._pathForImage(id)
@@ -33,7 +33,6 @@ class PictureController(BaseController):
         return self.list()
 
     def list(self):
-        verify()
         c.numImages, c.images = model.listImages()
         c.cmsmenuOptions['picture'] = {}
         cmsmenu_opts = c.cmsmenuOptions['picture']
@@ -63,7 +62,6 @@ class PictureController(BaseController):
         return render('/pages/picture/list.html')
 
     def edit(self, id=None):
-        verify()
         if id == 'new':
             c.image = model.Image()
             c.image.id = 'new'
@@ -72,15 +70,15 @@ class PictureController(BaseController):
         return render('/pages/picture/edit.html')
 
     def submit(self, id=None):
-        verify()
         if id == 'new':
             image = model.Image()
         else:
-            image = model.findImage(int(id))
+            image = model.find_image(int(id))
 
         rp = request.POST
         f = rp.get('image')
-        h.makePath(config['pictures_dir'])
+        if not os.path.exists(config['pictures_dir']):
+            os.makedirs(config['pictures_dir'])
 
         image.filename = f.filename
         image.filetype = f.type
@@ -96,7 +94,6 @@ class PictureController(BaseController):
         return redirect(url(controller='picture', action='list'))
 
     def delete(self, id):
-        verify()
         try:
             image = model.findImage(int(id))
             model.delete(image)

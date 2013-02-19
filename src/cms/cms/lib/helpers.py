@@ -4,6 +4,7 @@ import crypt
 import locale
 import os
 
+from textile import textile
 from pylons import config
 from webhelpers.html import escape, HTML, literal, url_escape, tags  # noqa
 
@@ -35,7 +36,10 @@ def encodePassword(passwd):
 
 def dutchTime(format, dt):
     oldlocale = locale.getlocale(locale.LC_TIME)
-    locale.setlocale(locale.LC_TIME, config['use_locale'])
+    try:
+        locale.setlocale(locale.LC_TIME, config['use_locale'])
+    except:
+        pass
     retval = dt.strftime(format)
     locale.setlocale(locale.LC_TIME, oldlocale)
     return retval

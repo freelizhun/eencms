@@ -19,6 +19,11 @@ class MgmtController(BaseController):
 
     def login(self, error=None):
         c.error = error
+        c.info = None
+        if 'cmsloggedout' in session:
+            c.info = 'Je bent uitgelogt!'
+            del session['cmsloggedout']
+            session.save()
         return render('/pages/cms/login.html')
 
     def submit(self):
@@ -44,6 +49,8 @@ class MgmtController(BaseController):
         except:
             pass
         finally:
+            session['cmsloggedout'] = True
             session.save()
 
-        return redirect(url(controller='home', action='index'))
+
+        return redirect(url(controller='mgmt', action='login'))

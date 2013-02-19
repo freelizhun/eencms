@@ -1,36 +1,31 @@
-<%inherit file="/components/base/normal/base.html" />
+<%inherit file="/components/base/base.html" />
 <%def name="title()">${c.page.title}</%def>
 
-                    <div class="column">
-<%include file="/components/page/submenu.html" args="node=c.page" />
+                    <h2>Gebruiker bewerken</h2>
+                    <div class="hr firsthr">
+                        <hr />
                     </div>
 
-                    <div class="column columndouble">
-                        <h2>Gebruiker bewerken</h2>
-                        <div class="hr firsthr">
-                            <hr />
+                    ${tags.form(url(controller='cmsuser', action='submit', id=c.usr.id), method='post', id='inschrijven')}
+                        ${tags.hidden('token', session.get('token'))}
+                        <dl>
+                            <dt><label for="fullname">Volledige naam</label></dt>
+                            <dd>${tags.text('fullname', c.usr.fullname, 'fullname')}</dd>
+                        </dl>
+                        <dl>
+                            <dt><label for="username">login</label></dt>
+                            <dd>${tags.text('username', c.usr.username, 'username')}</dd>
+                        </dl>
+                        <dl>
+                            <dt><label for="password1">Wachtwoord</label></dt>
+                            <dd>${tags.password('password1', '', 'password1')}</dd>
+                        </dl>
+                        <dl>
+                            <dt><label for="password2">Wachtwoord (herhaling)</label></dt>
+                            <dd>${tags.password('password2', '', 'password2')}</dd>
+                        </dl>
+                        <input name="opslaan" type="submit" class="readmore" id="inschrijven_submit" value="Opslaan"> 
+                        <div class="hr"> 
+                            <hr /> 
                         </div>
-
-                        ${h.tags.form(url(controller='cmsuser', action='submit', id=c.usr.id), method='post', id='inschrijven')}
-                            <dl>
-                                <dt><label for="fullname">Volledige naam</label></dt>
-                                <dd>${h.tags.text('fullname', c.usr.fullname, 'fullname')}</dd>
-                            </dl>
-                            <dl>
-                                <dt><label for="username">login</label></dt>
-                                <dd>${h.tags.text('username', c.usr.username, 'username')}</dd>
-                            </dl>
-                            <dl>
-                                <dt><label for="password1">Wachtwoord</label></dt>
-                                <dd>${h.tags.password('password1', '', 'password1')}</dd>
-                            </dl>
-                            <dl>
-                                <dt><label for="password2">Wachtwoord (herhaling)</label></dt>
-                                <dd>${h.tags.password('password2', '', 'password2')}</dd>
-                            </dl>
-                            <input name="opslaan" type="submit" class="readmore" id="inschrijven_submit" value="Opslaan"> 
-                            <div class="hr"> 
-                                <hr /> 
-                            </div>
-                        ${h.tags.end_form()}
-                    </div>
+                    ${tags.end_form()}

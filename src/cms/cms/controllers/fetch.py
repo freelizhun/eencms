@@ -13,7 +13,7 @@ class FetchController(BaseController):
     lightWeight = True
 
     def image(self, id, name):
-        image = model.findImage(id)
+        image = model.find_image(id)
         path = self._get_image_path(image.id)
         if not os.path.exists(path):
             abort(404)

@@ -5,7 +5,7 @@ from pylons import request, session, tmpl_context as c, url, config
 from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
-from cms.lib.cms import verify
+from cms.lib import security
 
 log = logging.getLogger(__name__)
 
@@ -13,13 +13,12 @@ log = logging.getLogger(__name__)
 class CmsuserController(BaseController):
     def __before__(self):
         BaseController.__before__(self)
-        c.page = c.tree.findNode(iname='cmscmsuser')
+        c.page = c.tree.find_node(iname='cmscmsuser')
 
     def index(self):
         return self.list()
 
     def list(self):
-        verify()
         c.numCmsusers, c.cmsusers = model.listCMSUsers()
         c.cmsmenuOptions['cmsuser'] = {}
         for cmsuser in c.cmsusers:
@@ -43,12 +42,11 @@ class CmsuserController(BaseController):
         return render('/pages/cmsuser/list.html')
 
     def edit(self, id=None):
-        verify()
         if id == 'new':
             c.usr = model.CMSUser()
             c.usr.id = 'new'
         else:
-            c.usr = model.findCMSUser(int(id))
+            c.usr = model.find_cmsuser(int(id))
         c.errors = session.get('errors', [])
         if c.errors:
             rp = session.get('post', {})
@@ -60,20 +58,17 @@ class CmsuserController(BaseController):
         return render('/pages/cmsuser/edit.html')
 
     def submit(self, id=None):
-        verify()
-
         if id == 'new':
             usr = model.CMSUser()
         else:
-            usr = model.findCMSUser(int(id))
+            usr = model.find_cmsuser(int(id))
 
         errors = []
         rp = request.POST
         usr.fullname = rp.get('fullname')
         usr.username = rp.get('username')
         if rp.get('password1') and rp.get('password1') == rp.get('password2'):
-            usr.password = crypt.crypt(rp.get('password1'),
-                                       config['passwd_seed'])
+            usr.password = security.hash_password(rp.get('password1'))
 
         if id == 'new' and not usr.password:
             errors.append({
@@ -97,7 +92,6 @@ class CmsuserController(BaseController):
         return redirect(url(controller='cmsuser', action='list'))
 
     def delete(self, id=None):
-        verify()
         if c.cmsuser.id != id:
             usr = model.findCMSUser(int(id))
             model.delete(usr)
