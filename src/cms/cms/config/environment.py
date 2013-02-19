@@ -23,7 +23,8 @@ def load_environment(global_conf, app_conf):
     paths = dict(root=root,
                  controllers=os.path.join(root, 'controllers'),
                  static_files=os.path.join(root, 'public'),
-                 templates=[os.path.join(root, 'templates')])
+                 templates=filter(None, [app_conf.get('template_dir', None),
+                                         os.path.join(root, 'templates')]))
 
     # Initialize config with the basic options
     config.init_app(global_conf, app_conf, package='cms', paths=paths)
