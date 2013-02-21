@@ -5,15 +5,20 @@ from pylons.controllers.util import abort, redirect
 
 from cms.lib.exceptions import NotFoundException
 from cms.lib.base import BaseController, render, Session
+from cms.lib.decorators import get, post, access_cmsuser, access_all
 import cms.model as model
 
 log = logging.getLogger(__name__)
 
 
 class PageController(BaseController):
+    @get
+    @access_all
     def index(self):
         return render('/pages/reference/index.html')
 
+    @get
+    @access_all
     def view(self, id=None, title=None):
         try:
             c.page = c.tree.find_node(id=int(id))
@@ -26,6 +31,8 @@ class PageController(BaseController):
 
         return render('/pages/page/view.html')
 
+    @get
+    @access_cmsuser
     def edit(self, id=None):
         if id == 'new':
             c.page = model.Page()
@@ -34,6 +41,8 @@ class PageController(BaseController):
             c.page = c.tree.find_node(int(id))
         return render('/pages/page/edit.html')
 
+    @post
+    @access_cmsuser
     def submit(self, id=None):
         rp = request.POST
         c.page = c.tree.find_node(id=int(id))
@@ -57,21 +66,29 @@ class PageController(BaseController):
                             id=c.page.id,
                             title=c.page.get_url_title()))
 
+    @post
+    @access_cmsuser
     def addbelow(self, id=None):
         sibling = c.tree.find_node(int(id))
         newid = c.tree.add_child(sibling.parent_id, sibling.id)
         return redirect(url(controller='page', action='edit', id=newid))
 
+    @post
+    @access_cmsuser
     def moveup(self, id=None):
         c.tree.move_node(int(id), 'up')
         node = c.tree.find_node(int(id))
         return redirect(node.get_url())
 
+    @post
+    @access_cmsuser
     def movedown(self, id=None):
         c.tree.move_node(int(id), 'down')
         node = c.tree.find_node(int(id))
         return redirect(node.get_url())
 
+    @post
+    @access_cmsuser
     def delete(self, id=None):
         node = c.tree.find_node(int(id))
         parent_id = node.parent_id

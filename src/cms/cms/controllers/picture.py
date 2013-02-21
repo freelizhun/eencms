@@ -6,6 +6,8 @@ from pylons import request, response, tmpl_context as c, url, config
 from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
+from cms.lib.decorators import get, post, access_cmsuser, access_all
+from cms.lib import image
 import cms.lib.helpers as h
 
 log = logging.getLogger(__name__)
@@ -17,10 +19,12 @@ class PictureController(BaseController):
         c.bodyclass = 'cms'
         c.page = c.tree.find_node(iname='cmspicture')
 
+    @get
+    @access_all
     def get(self, id=None, title=None):
-        doc = self._pathForImage(id)
+        doc = image.get_path_for_id(int(id))
         try:
-            rec = model.findImage(int(id))
+            rec = model.find_image(int(id))
         except:
             pass
         if rec and os.path.exists(doc):
@@ -29,9 +33,13 @@ class PictureController(BaseController):
         else:
             raise Exception("Image not found")
 
+    @get
+    @access_cmsuser
     def index(self):
         return self.list()
 
+    @get
+    @access_cmsuser
     def list(self):
         c.numImages, c.images = model.listImages()
         c.cmsmenuOptions['picture'] = {}
@@ -61,6 +69,8 @@ class PictureController(BaseController):
             cmsmenu_opts[img.id] = opt
         return render('/pages/picture/list.html')
 
+    @get
+    @access_cmsuser
     def edit(self, id=None):
         if id == 'new':
             c.image = model.Image()
@@ -69,6 +79,8 @@ class PictureController(BaseController):
             c.image = model.findImage(int(id))
         return render('/pages/picture/edit.html')
 
+    @post
+    @access_cmsuser
     def submit(self, id=None):
         if id == 'new':
             image = model.Image()
@@ -93,6 +105,8 @@ class PictureController(BaseController):
 
         return redirect(url(controller='picture', action='list'))
 
+    @post
+    @access_cmsuser
     def delete(self, id):
         try:
             image = model.findImage(int(id))
@@ -102,6 +116,3 @@ class PictureController(BaseController):
         except Exception, e:
             log.error(str(e))
         return redirect(url(controller='picture', action='list'))
-
-    def _pathForImage(self, id):
-        return os.path.join(config['pictures_dir'], '%d.dat' % (int(id),))

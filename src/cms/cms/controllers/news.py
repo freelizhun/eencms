@@ -5,6 +5,7 @@ from pylons import request, session, tmpl_context as c, url
 from pylons.controllers.util import abort, redirect
 
 from cms.lib.base import BaseController, render, model
+from cms.lib.decorators import get, post, access_cmsuser, access_all
 import cms.lib.pagination as pagination
 
 log = logging.getLogger(__name__)
@@ -15,9 +16,13 @@ class NewsController(BaseController):
         BaseController.__before__(self)
         c.page = c.tree.find_matching_shortcut('news', 'list')
 
+    @get
+    @access_all
     def index(self):
         return self.list()
 
+    @get
+    @access_all
     def list(self):
         c.numnews, newsquery = model.list_news(**request.params)
         c.news = newsquery.all()
@@ -30,6 +35,8 @@ class NewsController(BaseController):
 
         return render('/pages/news/list.html')
 
+    @get
+    @access_all
     def view(self, id, title=None):
         c.news = model.find_news(int(id))
         if not c.news:
@@ -65,6 +72,8 @@ class NewsController(BaseController):
                         url=url(controller='news', action='edit', id='new')))
         return opt
 
+    @get
+    @access_cmsuser
     def edit(self, id=None):
         c.page = c.tree.find_matching_shortcut('news', 'list')
         if id == 'new':
@@ -83,6 +92,8 @@ class NewsController(BaseController):
 
         return render('/pages/news/edit.html')
 
+    @post
+    @access_cmsuser
     def submit(self, id=None):
         if id == 'new':
             news = model.News()
@@ -125,18 +136,24 @@ class NewsController(BaseController):
                  str(news.created))
         return redirect(url(controller='news', action='list'))
 
+    @post
+    @access_cmsuser
     def hide(self, id=None):
         news = model.find_news(id)
         news.active = False
         model.commit()
         return redirect(url(controller='news', action='list'))
 
+    @post
+    @access_cmsuser
     def unhide(self, id=None):
         news = model.find_news(id)
         news.active = True
         model.commit()
         return redirect(url(controller='news', action='list'))
 
+    @post
+    @access_cmsuser
     def delete(self, id=None):
         news = model.find_news(id)
         log.info("Deleting news item %d %s", news.id, news.title)

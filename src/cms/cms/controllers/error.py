@@ -5,6 +5,7 @@ from pylons.middleware import error_document_template
 from webhelpers.html.builder import literal
 
 from cms.lib.base import BaseController
+from cms.lib.decorators import get, access_all
 
 
 class ErrorController(BaseController):
@@ -17,6 +18,8 @@ class ErrorController(BaseController):
     ErrorDocuments middleware in your config/middleware.py file.
 
     """
+    @access_all
+    @get
     def document(self):
         """Render the error document"""
         request = self._py_object.request
@@ -29,10 +32,14 @@ class ErrorController(BaseController):
              'message': content}
         return page
 
+    @access_all
+    @get
     def img(self, id):
         """Serve Pylons' stock images"""
         return self._serve_file('/'.join(['media/img', id]))
 
+    @get
+    @access_all
     def style(self, id):
         """Serve Pylons' stock stylesheets"""
         return self._serve_file('/'.join(['media/style', id]))

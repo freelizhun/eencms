@@ -6,6 +6,7 @@ import logging
 
 from pylons import request, session, tmpl_context as c
 from pylons.controllers import WSGIController
+from pylons.controllers.util import abort
 from pylons.templating import render_mako as render  # noqa
 
 from cms.model.meta import Session
@@ -33,8 +34,11 @@ class BaseController(WSGIController):
         if self.lightweight:
             return
 
+        routes = request.environ.get('pylons.routes_dict', dict())
+
         c.bodyclass = None
         c.cmsuser = None
+        c.current_action = routes.get('action')
 
         if 'token' not in session:
             session['token'] = security.generate_token()
@@ -45,7 +49,16 @@ class BaseController(WSGIController):
         else:
             c.cmsuser = model.find_cmsuser(session['cmsuser'])
 
+        try:
+            act = getattr(self, c.current_action)
+        except:
+            abort(404)
+
+        if not security.allowed_action(act, request.method, c.cmsuser):
+            print "1", act.__dict__
+            abort(403)
         if not security.check_token(request, session):
+            print "2"
             abort(403)
 
         c.tree = Tree(Session)

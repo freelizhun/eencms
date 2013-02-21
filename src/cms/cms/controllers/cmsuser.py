@@ -6,6 +6,7 @@ from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
 from cms.lib import security
+from cms.lib.decorators import get, post, access_cmsuser
 
 log = logging.getLogger(__name__)
 
@@ -15,9 +16,13 @@ class CmsuserController(BaseController):
         BaseController.__before__(self)
         c.page = c.tree.find_node(iname='cmscmsuser')
 
+    @get
+    @access_cmsuser
     def index(self):
         return self.list()
 
+    @get
+    @access_cmsuser
     def list(self):
         c.numCmsusers, c.cmsusers = model.listCMSUsers()
         c.cmsmenuOptions['cmsuser'] = {}
@@ -41,6 +46,8 @@ class CmsuserController(BaseController):
             c.cmsmenuOptions['cmsuser'][cmsuser.id] = opt
         return render('/pages/cmsuser/list.html')
 
+    @get
+    @access_cmsuser
     def edit(self, id=None):
         if id == 'new':
             c.usr = model.CMSUser()
@@ -57,6 +64,8 @@ class CmsuserController(BaseController):
             session.save()
         return render('/pages/cmsuser/edit.html')
 
+    @post
+    @access_cmsuser
     def submit(self, id=None):
         if id == 'new':
             usr = model.CMSUser()
@@ -91,6 +100,8 @@ class CmsuserController(BaseController):
 
         return redirect(url(controller='cmsuser', action='list'))
 
+    @post
+    @access_cmsuser
     def delete(self, id=None):
         if c.cmsuser.id != id:
             usr = model.findCMSUser(int(id))

@@ -6,17 +6,22 @@ from pylons.controllers.util import redirect
 
 from cms.lib.base import BaseController, render, model
 from cms.lib import security
+from cms.lib.decorators import get, post, access_cmsuser, access_all
 
 log = logging.getLogger(__name__)
 
 
 class MgmtController(BaseController):
+    @get
+    @access_all
     def index(self):
         if not session.get('cmsuser'):
             return self.login()
 
         return render('/pages/cms/index.html')
 
+    @get
+    @access_all
     def login(self, error=None):
         c.error = error
         c.info = None
@@ -26,6 +31,8 @@ class MgmtController(BaseController):
             session.save()
         return render('/pages/cms/login.html')
 
+    @post
+    @access_all
     def submit(self):
         login = str(request.params.get('username'))
         passwd = str(request.params.get('passwd'))
@@ -43,6 +50,8 @@ class MgmtController(BaseController):
 
         return redirect(url(controller='mgmt', action='index'))
 
+    @get
+    @access_cmsuser
     def logout(self):
         try:
             del session['cmsuser']

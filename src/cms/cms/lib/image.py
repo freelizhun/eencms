@@ -57,3 +57,7 @@ def resizeDimensions(x, y, maxx, maxy):
             newy = maxy
             newx = (maxy / y) * x
     return int(newx), int(newy)
+
+
+def get_path_for_id(id):
+    return os.path.join(config['pictures_dir'], '%d.dat' % (int(id),))
